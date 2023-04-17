@@ -3,21 +3,38 @@ import json
 import os
 import time
 from logging import info
+#from loguru import logger
 from distutils.util import strtobool
 from multiprocessing import Process
 from typing import List
 
 import generator
 import train
+from end2end_scene import (get_unity_path,get_config_ini_path,
+                           get_level_from_config_ini
+)
 from pydreamer.tools import (configure_logging, mlflow_log_params,
                              mlflow_init, print_once, read_yamls)
 
 
-def launch():
-    configure_logging('[launcher]')
+PROJECT_PATH = str(os.getcwd())
+
+def make_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--configs', nargs='+', required=True)
-    args, remaining = parser.parse_known_args()
+    parser.add_argument("--cfg_dir", default=f"{PROJECT_PATH}/config/")
+    parser.add_argument("--scene_dir", default=f"{PROJECT_PATH}/scenes/pick/")
+    parser.add_argument("--controller", default="mcs")
+    parser.add_argument("--log_dir", default="default")
+    parser.add_argument("--scene_type", default=None)
+    #parser.add_argument("--scene_classifier_only", default=False)
+    return parser
+
+def launch():
+    configure_logging('[launcher]')
+    args,remaining = make_parser().parse_known_args()
+
+    info(f"Args : {args}")
 
     # Config from YAML
 
@@ -39,6 +56,10 @@ def launch():
             type_ = lambda x: bool(strtobool(x))
         parser.add_argument(f'--{key}', type=type_, default=value)
     conf = parser.parse_args(remaining)
+
+    #info(args) 
+    #info(conf.__dict__)
+    info(conf.env_id)
 
     # Mlflow
 

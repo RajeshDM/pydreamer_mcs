@@ -4,9 +4,11 @@ warnings.filterwarnings("ignore", ".*Box bound precision lowered by casting")  #
 
 import gym
 import numpy as np
+import os
 
 from .wrappers import *
-
+from pathlib import Path
+from logging import critical, debug, error, info, warning
 
 def create_env(env_id: str, no_terminal: bool, env_time_limit: int, env_action_repeat: int, worker_id: int):
 
@@ -57,6 +59,19 @@ def create_env(env_id: str, no_terminal: bool, env_time_limit: int, env_action_r
         task = env_id.split('-', maxsplit=1)[1].lower()
         env = EmbodiedEnv(task, action_repeat=env_action_repeat, time_limit=env_time_limit)
         env_time_limit = 0  # This is handled by embodied.Env
+
+    elif env_id.startswith('MCS'):
+        path = Path(os.getcwd())
+        config_ini_path = str(path) + "/config/mcs.ini"
+        info (config_ini_path)
+
+        if env_id.split('-')[1] == 'FPS' :
+            from .mcs_fps_view_eps import MCS_FPS_View_EPS 
+            env = MCS_FPS_View_EPS(config_ini_path)
+
+        elif env_id.split('-')[1] == 'Top' :
+            from .mcs_top_view import MCSTopView
+            env = MCSTopView()
 
     else:
         env = gym.make(env_id)
