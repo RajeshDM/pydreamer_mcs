@@ -1,9 +1,16 @@
-#torch
-gym==0.19.0
+-f https://download.pytorch.org/whl/cu118
+torch
+-f https://download.pytorch.org/whl/cu118
+torchvision
+-f https://download.pytorch.org/whl/cu118
+torchaudio 
+gym[atari]==0.19.0
 backoff
+rich
 
 # Logging
 mlflow
+loguru
 google.cloud.storage
 # azure-storage-blob
 
@@ -17,3 +24,8 @@ google.cloud.storage
 # dm-env
 # dm-env-rpc==1.0.6
 # grpcio
+
+
+#MCS
+typeguard==2.13.2
+machine-common-sense
