@@ -8,6 +8,7 @@ mlruns/
 _*.*
 .*
 
+!**/*.gitkeep
 !__init__.py
 !.gitignore
 !.dockerignore
