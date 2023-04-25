@@ -77,31 +77,27 @@ class MCS_FPS_View_EPS(gym.Env):
             done = True
             solved = True
 
-        if self.output.steps_on_lava == 0:
-            for obj in self.output.object_list:
-                if obj.uuid == self.soccer_id:
-                    if not obj.visible:
-                        reward -= 2
+        for obj in self.output.object_list:
+            if obj.uuid == self.soccer_id:
+                if not obj.visible:
+                    reward -= 2
 
-                    if self.prev_distance - obj.distance_in_steps > 0:
-                        reward += 0.5
-                    else:
-                        reward -= 0.5
-                    self.prev_distance = obj.distance_in_steps
-                    # self.curr_distance = obj.distance_in_steps
-                    # if self.prev_distance < self.curr_distance:
-                    #     reward -= 2
-                    # self.prev_distance = self.curr_distance
+                if self.prev_distance - obj.distance_in_steps > 0:
+                    reward += 0.5
+                else:
+                    reward -= 0.5
+                self.prev_distance = obj.distance_in_steps
+                # self.curr_distance = obj.distance_in_steps
+                # if self.prev_distance < self.curr_distance:
+                #     reward -= 2
+                # self.prev_distance = self.curr_distance
 
-            if self.output.step_number > 50:
-                done = True
-
-            if not done:
-                self.process_observation()
-        else:
-            reward -= 75
+        if self.output.step_number > 1024:
+        #if self.output.step_number > 50:
             done = True
-            stepped_on_lava = True
+
+        if not done:
+            self.process_observation()
 
         #return self.observation, reward, done, {"solved":solved, "scene_name": self.scene_name, "stepped_on_lava": stepped_on_lava}
         obs = {

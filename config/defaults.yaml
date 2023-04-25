@@ -191,6 +191,31 @@ mcs:
   env_id: MCS_Top_View
   action_dim: 7
   env_action_repeat: 4
+  generator_workers: 16
+  clip_rewards: tanh
+  generator_prefill_steps: 50000
+  save_interval: 500
+
+  #Features
+  image_key: image
+  image_size: 64
+  image_channels: 3
+  #model (Currently copied from Atari)
+  vecobs_size: 0
+  image_encoder: cnn
+  cnn_depth: 48
+  image_decoder: cnn
+  deter_dim: 2048
+  kl_weight: 0.1
+  gamma: 0.99
+  entropy: 0.001
+
+mcs_debug:
+  #Env
+  n_env_steps: 200_000_000
+  env_id: MCS_Top_View
+  action_dim: 7
+  env_action_repeat: 4
   generator_workers: 1
   clip_rewards: tanh
   generator_prefill_steps: 50
@@ -203,13 +228,11 @@ mcs:
   #model (Currently copied from Atari)
   vecobs_size: 0
   image_encoder: cnn
-  cnn_depth: 108
+  cnn_depth: 48
   image_decoder: cnn
   deter_dim: 2048
   kl_weight: 0.1
   gamma: 0.99
-  entropy: 0.001
-
 
 atari:
   n_env_steps: 200_000_000

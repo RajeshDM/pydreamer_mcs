@@ -51,6 +51,11 @@ mcs_top_view:
   n_env_steps: 20_000_000
   action_dim: 7
 
+mcs_top_view_debug:
+  env_id: MCS-Top-View
+  n_env_steps: 200
+  action_dim: 7
+
 mcs_fps_view:
   env_id: MCS-FPS-View
   n_env_steps: 20_000_000
